@@ -1,0 +1,367 @@
+{
+  "title": "Containers for Developers",
+  "presenter": "Joel Lord",
+  "date": "September 2, 2020",
+  "conference": "Fullstack Day",
+  "location": "Internationational JS Conf",
+  "twitter": {
+    "presenter": "@joel__lord",
+    "event": "#iJS #containers"
+  },
+  "frame": {                    
+    "top": {                    
+      "center": "title"         
+    },
+    "bottom": {                 
+      "left": ["twitter.presenter", "twitter.event"],
+      "center": "Red Hat OpenShift"
+    }
+  },
+  "slides": [
+    {
+      "type": "title",
+      "title": "Containers for Developers"
+    },
+    {
+      "type": "split",
+      "left": {
+        "title": "Hi, I'm Joel",
+        "list": [
+          "Dev Advocate @ Red Hat OpenShift",
+          "Based in Ottawa, Canada",
+          "💓  Twitter: @joel__lord",
+          "I have stickers..."
+        ]
+      },
+      "right": {
+        "text": [
+          "    .-\"\"\"\"\"-.",
+          "    / _____/\\_\\",
+          "   //`__   __ \\\\",
+          "  //  (o) (o)  \\\\",
+          " (_    (___)    _)",
+          "   \\  \\_____/  /",
+          "    `-._   _.-'",
+          "    __.-)_(-,__ ",
+          " ./'/   |_|   \\`\\.",
+          " /   `\"\"\"\"\"\"\"\"\"\"`  \\"
+        ]
+      }
+    },
+    {
+      "type": "list",
+      "title": "Why use containers?",
+      "list": [
+        "Same Environment as Production",
+        "Onboarding",
+        "Open Source Contributions",
+        "Testing"
+      ]
+    },
+    {
+      "type": "list",
+      "title": "It Won't Help You With",
+      "list": [
+        "Networking, DNS, Routing",
+        "Scaling"
+      ]
+    },
+    {
+      "type": "simple",
+      "title": "What is a Container?",
+      "text": "A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another."
+    },
+    {
+      "type": "simple",
+      "title": "What is a Container?",
+      "text": "It [...] is a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings."
+    },
+    {
+      "type": "simple",
+      "title": "What is a Container?",
+      "text": "It is a disposable unit. Once it's completed, it destroys itself along with all other dependencies. "
+    },
+    {
+      "type": "titleOnly",
+      "title": "So, just like a VM?"
+    },
+    {
+      "type": "titleOnly",
+      "title": "Nope!"
+    },
+    {
+      "type": "diagram",
+      "title": "VMs",
+      "diagram": [
+        "--------- --------- ---------",
+        "|   VM  | |   VM  | |   VM  |",
+        "|-------| |-------| |-------|",
+        "| App A | | App B | | App C |",
+        "|-------| |-------| |-------|",
+        "|   OS  | |   OS  | |   OS  |",
+        "--------- --------- ---------",
+        "-----------------------------",
+        "|         Hypervisor        |",
+        "-----------------------------",
+        "-----------------------------",
+        "|           Host OS         |",
+        "-----------------------------",
+        "-----------------------------",
+        "|        Infrastucture      |",
+        "-----------------------------"
+      ]
+    },
+    {
+      "type": "diagram",
+      "title": "Containers",
+      "diagram": [
+        "----- ----- ----- ----- -----",
+        "| A | | A | | A | | A | | A |",
+        "| p | | p | | p | | p | | p |",
+        "| p | | p | | p | | p | | p |",
+        "|   | |   | |   | |   | |   |",
+        "| A | | B | | C | | D | | E |",
+        "----- ----- ----- ----- -----",
+        "-----------------------------",
+        "|            Docker         |",
+        "-----------------------------",
+        "-----------------------------",
+        "|           Host OS         |",
+        "-----------------------------",
+        "-----------------------------",
+        "|        Infrastucture      |",
+        "-----------------------------"
+      ]
+    },
+    {
+      "type": "list",
+      "title": "Where Does Docker Fit?",
+      "list": [
+        "One of various tools to run containers",
+        "Used as the base for the OCI",
+        "`podman` is an alternative for Linux"
+      ]
+    },
+    {
+      "type": "titleOnly",
+      "title": "Container In Practice"
+    },
+    {
+      "type": "speaking",
+      "character": "over-cubbie",
+      "text": "Hey Joel, can you help me with this PHP code?"
+    },
+    {
+      "type": "speaking",
+      "character": "me",
+      "text": "I don't have PHP or Apache installed on this machine but it shouldn't be a problem thanks to containers!"
+    },
+    {
+      "type": "terminal",
+      "title": "Docker Run",
+      "text": "You can use a container to run code in a different environment."
+    },
+    {
+      "type": "code",
+      "title": "Docker run",
+      "text": "Starts a container",
+      "code": "docker run <image-name>"
+    },
+    {
+      "type": "code",
+      "title": "Docker run",
+      "text": "Starts a container",
+      "code": "docker run [reverse]php:7.1-apache[reset]",
+      "notes": "You can find more images at [blue][underscore]http://hub.docker.com[reset]"
+    },
+    {
+      "type": "code",
+      "title": "Docker run",
+      "text": "Starts a container",
+      "code": "docker run [reverse]-p 8080:80[reset] php:7.1-apache",
+      "notes": "Maps port 8080 on your local machine (host) to the port 80 in the container."
+    },
+    {
+      "type": "code",
+      "title": "Docker run",
+      "text": "Starts a container",
+      "code": "docker run [reverse]-v $(pwd):/var/www/html[reset] -p 8080:80 php:7.1-apache",
+      "notes": "Mounts your current folder in the /var/www/html folder of the container so it will serve your local files."
+    },
+    {
+      "type": "code",
+      "title": "Docker run",
+      "text": "Starts a container",
+      "multistep": true,
+      "multistepType": "highlight",
+      "code": "[reverse]docker run[reset] [reverse]-d[reset] [reverse]--rm[reset] [reverse]--name my-php[reset] [reverse]-v $(pwd):/var/www/html[reset] [reverse]-p 8080:80[reset] [reverse]php:7.1-apache[reset]"
+    },
+    {
+      "type": "speaking",
+      "character": "over-cubbie",
+      "text": "This is a JS conference, maybe you should show some JavaScript examples."
+    },
+    {
+      "type": "code",
+      "title": "Docker run",
+      "text": "Run a NodeJS/Express server",
+      "code": "docker run -v $(pwd):/app -p 8080:3000 [reverse]node:10[reset] node /app"
+    },
+    {
+      "type": "titleOnly",
+      "title": "No More \"Works On My Machine\""
+    },
+    {
+      "type": "code",
+      "title": "Environment Variables For Containers",
+      "text": "Run a MySQL Database",
+      "code": [
+        "docker run --rm --name mymysql \\",
+        "  -e MYSQL_ROOT_PASSWORD=root \\",
+        "  -e MYSQL_USER=user\\", 
+        "  -e MYSQL_PASSWORD=pass \\",
+        "  -p 3306:3306 \\",
+        "  mysql:5.7"
+      ]
+    },
+    {
+      "type": "terminal",
+      "title": "MySQL and phpMyAdmin",
+      "text": ""     
+    },
+    {
+      "type": "titleOnly",
+      "title": "More than a CLI"
+    },
+    {
+      "type": "speaking",
+      "character": "silly-face",
+      "text": "I don't think I can remember all those commands!"
+    },
+    {
+      "type": "list",
+      "title": "Introducing the Dockerfile",
+      "list": [
+        "Same options as in the command line",
+        "Standardized set of commands",
+        "Lets you build your own images for sharing",
+        "Builds stacks that can be shared"
+      ]
+    },
+    {
+      "type": "simple",
+      "title": "[red][blink]WARNING[reset]",
+      "text": "Your containers might be running as root."
+    },
+    {
+      "type": "titleOnly",
+      "title": "Sharing Is Caring"
+    },
+    {
+      "type": "list",
+      "title": "Registries",
+      "subtitle": "You can share to public or private registries",
+      "list": [
+        "Docker Hub ([blue][underscore]http://hub.docker.com[reset])",
+        "Quay ([blue][underscore]http://quay.io[reset]) - Open Source",
+        "Google, Azure, IBM, ..."
+      ]
+    },
+    {
+      "type": "code",
+      "title": "Sharing",
+      "text": "To publish to a registry, use push",
+      "code": "docker push <registry/username/container-name>",
+      "notes": "In order to publish to a registry, you will have to sign in the latter using [cyan]docker login[reset]."
+    },
+    {
+      "type": "code",
+      "title": "Sharing",
+      "text": "To publish to a registry, use push",
+      "code": "docker push [reverse]docker.io/joellord/my-php[reset]",
+      "notes": "In order to publish to a registry, you will have to sign in the latter using [cyan]docker login[reset]."
+    },
+    {
+      "type": "code",
+      "title": "Sharing",
+      "text": "To download an image, use pull",
+      "code": "docker pull <registry/username/container-name>"
+    },
+    {
+      "type": "code",
+      "title": "Sharing",
+      "text": "To download an image, use pull",
+      "code": "docker pull [reverse]docker.io/joellord/my-nodejs[reset]"
+    },
+    {
+      "type": "titleOnly",
+      "title": "More Useful Commands"
+    },
+    {
+      "type": "list",
+      "title": "Docker run",
+      "subtitle": "Other useful commands",
+      "list": [
+        "[cyan]docker ps[reset] Lists running containers",
+        "[cyan]docker ps -a[reset] List all containers",
+        "[cyan]docker stop <image>[reset] Stop a running container",
+        "[cyan]docker rm <image>[reset] Removes a container",
+        "[cyan]docker tag <image> <newImageName>[reset] Renames a container"
+      ]
+    },
+    {
+      "type": "simple",
+      "title": "Running Multiple Containers",
+      "text": "If you have multiple containers (ie PHP + MySQL), you might want to look into [cyan]docker-compose[reset]."
+    },
+    {
+      "type": "code",
+      "title": "Docker Compose",
+      "text": "Uses YAML files to describe all the containers",
+      "code": [
+        "version: '3'",
+        "services:",
+        "  db:",
+        "    image: mysql:5.7",
+        "    ports:",
+        "    - \"3306:3306\"",
+        "  web:",
+        "    image: php:7.1-apache",
+        "    depends_on:",
+        "    - db",
+        "    ports:",
+        "    - \"8100:80\""
+      ]
+    },
+    {
+      "type": "code",
+      "title": "Docker Compose",
+      "text": "Start all your containers with one command",
+      "code": "docker-compose up"
+    },
+    {
+      "type": "titleOnly",
+      "title": "Should You Use Them?"
+    },
+    {
+      "type": "simple",
+      "title": "Day To Day Development",
+      "text": "Yes!"
+    },
+    {
+      "type": "simple",
+      "title": "Testing",
+      "text": "Yes!"
+    },
+    {
+      "type": "simple",
+      "title": "Open Source Projects",
+      "text": "Yes, Yes and Yes!"
+    },
+    {
+      "type": "simple",
+      "title": "Thank You",
+      "text": "More information available at\n[blue][underscore]http://ezurl.to/containers[reset]\n\nReach out on Twitter at [blue][bright]@joel__lord[reset]"
+    }
+  ]
+}

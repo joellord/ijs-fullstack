@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  front:
+    image: joellord/ijs-fullstack-front
+    ports:
+      - 8080:80
+    networks:
+      - ijs-fullstack
+  back:
+    image: joellord/ijs-fullstack-back
+    ports:
+      - 3000:3001
+    environment:
+      - PORT=3001
+    networks:
+      - ijs-fullstack
+networks:
+  ijs-fullstack:
